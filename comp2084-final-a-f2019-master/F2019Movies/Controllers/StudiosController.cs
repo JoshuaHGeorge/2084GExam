@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using F2019Movies.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace F2019Movies.Controllers
 {
+    [Authorize]
     public class StudiosController : Controller
     {
         private readonly f19Context _context;
@@ -21,7 +23,9 @@ namespace F2019Movies.Controllers
         // GET: Studios
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Studio.ToListAsync());
+            await _context.Studio.ToListAsync();
+
+            return View(_context.Studio.OrderBy(n => n.Name));
         }
 
         // GET: Studios/Details/5

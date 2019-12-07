@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using F2019Movies.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace F2019Movies.Controllers
 {
+    [Authorize]
     public class MoviesController : Controller
     {
         private readonly f19Context _context;
