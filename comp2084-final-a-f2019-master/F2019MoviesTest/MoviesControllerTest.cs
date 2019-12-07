@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using F2019Movies.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace F2019MoviesTest
 {
@@ -73,5 +76,25 @@ namespace F2019MoviesTest
             moviesController = new MoviesController(db);
         }
 
+        [TestMethod]
+        // Test method to see if the index view loads the data descending order
+        public void LoadIndexData()
+        {
+            //setup
+
+
+            //process
+            var result = moviesController.Index();
+            //result.Wait();
+
+            var viewResult = (ViewResult)result.Result;
+
+            List<Movie> model = (List<Movie>)viewResult.Model;
+
+            //check
+            CollectionAssert.AreEqual(model, movies.OrderByDescending(r => r.Revenue).ToList());
+        }
+
+        
     }
 }
