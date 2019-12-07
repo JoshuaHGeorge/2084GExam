@@ -15,6 +15,7 @@ namespace F2019Movies.Models
         public int StudioId { get; set; }
         [Required]
         [StringLength(50)]
+        [Display(Name = "Studio Name")]
         public string Name { get; set; }
 
         [InverseProperty("Studio")]
