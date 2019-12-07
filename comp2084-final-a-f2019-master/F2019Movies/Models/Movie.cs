@@ -12,6 +12,7 @@ namespace F2019Movies.Models
         [StringLength(50)]
         public string Title { get; set; }
         public int? Year { get; set; }
+        [DisplayFormat(DataFormatString = "{0:c}")]
         public int? Revenue { get; set; }
         public int StudioId { get; set; }
         [StringLength(100)]
