@@ -36,6 +36,9 @@ namespace F2019Movies.Controllers
                 return NotFound();
             }
 
+            var movies = _context.Movie.Include(m => m.Studio);
+            await movies.ToListAsync();
+
             var studio = await _context.Studio
                 .Include(s => s.Movie)
                 .FirstOrDefaultAsync(m => m.StudioId == id);
@@ -44,7 +47,7 @@ namespace F2019Movies.Controllers
                 return NotFound();
             }
 
-            return View(studio);
+            return View(movies.Where(x => x.Studio.StudioId == id));
         }
 
         // GET: Studios/Create
