@@ -80,20 +80,17 @@ namespace F2019MoviesTest
         public void IndexValidLoadsMovies()
         {
             //process
-            var result = moviesController.Details(11);
+            var result = moviesController.Index();
             result.Wait();
 
             var viewResult = (ViewResult)result.Result;
-
-            List<Movie> model = new List<Movie>();
-            model.Add((Movie)viewResult.Model);
-
-            Movie[] modelArray = model.ToArray();
-            Movie[] fromMemory = movies.OrderByDescending(r => r.Revenue).ToArray();
+            List<Movie> model = (List<Movie>)viewResult.Model;
+            //Movie[] modelArray = model.ToArray();
+            //Movie[] fromMemory = movies.OrderByDescending(r => r.Revenue).ToArray();
 
 
             //check
-            CollectionAssert.Equals(modelArray, fromMemory);
+            Assert.AreEqual(model, movies.OrderByDescending(r => r.Revenue).ToList());
         }
 
         [TestMethod]

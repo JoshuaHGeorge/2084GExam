@@ -24,8 +24,8 @@ namespace F2019Movies.Controllers
         public async Task<IActionResult> Index()
         {
             var f19Context = _context.Movie.Include(m => m.Studio);
-            await f19Context.ToListAsync();
-            return View(f19Context.OrderByDescending(r => r.Revenue));
+            //await f19Context.ToListAsync();
+            return View(await f19Context.OrderByDescending(r => r.Revenue).ToListAsync());
         }
 
         // GET: Movies/Details/5

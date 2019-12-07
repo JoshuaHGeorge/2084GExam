@@ -22,7 +22,7 @@
         @foreach (var item in Model)
         {
         <li>
-            <a asp-action="Details" asp-route-id="@item.MovieId">@Html.DisplayFor(modelItem => item.Title)</a>
+            <a asp-action="../Movies/Details" asp-route-id="@item.MovieId">@Html.DisplayFor(modelItem => item.Title)</a>
         </li>
         }
     </ul>
