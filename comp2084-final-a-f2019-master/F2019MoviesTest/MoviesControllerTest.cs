@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using F2019Movies.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace F2019MoviesTest
@@ -78,23 +77,69 @@ namespace F2019MoviesTest
 
         [TestMethod]
         // Test method to see if the index view loads the data descending order
-        public void LoadIndexData()
+        public void IndexValidLoadsMovies()
+        {
+            //process
+            var result = moviesController.Details(11);
+            result.Wait();
+
+            var viewResult = (ViewResult)result.Result;
+
+            List<Movie> model = new List<Movie>();
+            model.Add((Movie)viewResult.Model);
+
+            Movie[] modelArray = model.ToArray();
+            Movie[] fromMemory = movies.OrderByDescending(r => r.Revenue).ToArray();
+
+
+            //check
+            CollectionAssert.Equals(modelArray, fromMemory);
+        }
+
+        [TestMethod]
+        // Test method to see if the details view loads the data
+        public void DetailsValidId()
+        {
+            //process
+            var result = moviesController.Details(11);
+            result.Wait();
+
+            var viewResult = (ViewResult)result.Result;
+
+            List<Movie> model = new List<Movie>();
+            model.Add((Movie)viewResult.Model);
+
+            Movie[] specific = model.ToArray();
+            Movie[] fromMemory = movies.ToArray();
+
+            //check
+            Assert.AreEqual(specific[0], fromMemory[0]);
+        }
+
+        [TestMethod]
+        // Test method to check for a wrong input returning not found
+        public void DetailsInvalidId()
+        {
+            //process
+            var result = moviesController.Details(-1).Result;
+
+            //check
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
+        }
+        [TestMethod]
+        // Test method checking for what happens with no ID input
+        public void DetailsNoId()
         {
             //setup
 
 
             //process
-            var result = moviesController.Index();
-            //result.Wait();
-
-            var viewResult = (ViewResult)result.Result;
-
-            List<Movie> model = (List<Movie>)viewResult.Model;
+            var result = moviesController.Details(null).Result;
 
             //check
-            CollectionAssert.AreEqual(model, movies.OrderByDescending(r => r.Revenue).ToList());
+            Assert.IsInstanceOfType(result, typeof(NotFoundResult));
         }
 
-        
+
     }
 }
